@@ -1,29 +1,29 @@
 # version node and instal him
 FROM node:18 AS build
 
-# Install pnpm
-RUN npm i -g pnpm
-
 # Directory of dependencies
 WORKDIR /usr/src/app
 
 # Copy package.json of project from container
 COPY package.json pnpm-lock.yaml ./
 
-# Install dependencies
-RUN pnpm i
-
 # Copy all files from container
 COPY . .
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Install only production dependencies
+# RUN pnpm i --filter production
+RUN pnpm install
 
 # Build Project
 RUN pnpm build
 
-# Install only production dependencies
-RUN pnpm i --filter production
-
 # Second Stage
 FROM node:18-alpine3.19
+
+RUN npm i -g pnpm
 
 WORKDIR /usr/src/app
 
