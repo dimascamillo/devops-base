@@ -14,7 +14,6 @@ COPY . .
 RUN npm install -g pnpm
 
 # Install only production dependencies
-# RUN pnpm i --filter production
 RUN pnpm install
 
 # Build Project
